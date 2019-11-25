@@ -1,0 +1,140 @@
+openapi: 3.0.0
+info:
+  description: This project handles all sellers' related actions in the market place system
+  version: 1.0.0
+  title: Market Place Sellers
+  contact:
+    name: Vanderson Assis
+    email: assis.vanderson@gmail.com
+paths:
+  /sellers:
+    get:
+      tags:
+        - Sellers
+      summary: All Sellers
+      description: Lists all sellers in our system
+      operationId: findAll
+      responses:
+        "200":
+          description: The list of all sellers in our system
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SellerListResponse'
+        "401":
+          description: Authorization failed
+        "500":
+          description: Internal server error
+    post:
+      tags:
+        - Sellers
+      summary: Creates a new Seller
+      description: Saves seller passes will be saved in the database
+      operationId: saveSeller
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Seller'
+        description: Seller object that will be created in our database
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Seller'
+          description: The seller just created
+        "400":
+          description: Invalid request data
+        "401":
+          description: Authorization failed
+        "405":
+          description: Validation exception
+        "500":
+          description: Internal server error
+    put:
+      tags:
+        - Sellers
+      summary: Edits a seller
+      description: The seller passed in the payload will be updated in our database
+      operationId: updateSeller
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Seller'
+        description: Seller object that will be updated in the database
+        required: true
+      responses:
+        "401":
+          description: Authorization failed
+        "404":
+          description: Seller not found
+        "405":
+          description: Validation exception
+        "500":
+          description: Internal server error
+  /sellers/{idSeller}:
+    parameters:
+      - in: path
+        name: idSeller
+        required: true
+        description: Id of the seller to be deleted from the database
+        schema:
+          type: string
+    get:
+      tags:
+        - Sellers
+      summary: Returns the seller
+      description: Returns the seller to which the provided ID belongs to
+      operationId: findById
+      responses:
+        "200":
+          description: Seller data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Seller'
+        "401":
+          description: Authorization failed
+        "404":
+          description: Not found
+        "500":
+          description: Internal server error
+    delete:
+      tags:
+        - Sellers
+      summary: Deletes a seller registry
+      description: The seller containing the passed ID will be deleted from our database
+      operationId: deleteSeller
+      responses:
+        "204":
+          description: The product has been deleted
+        "401":
+          description: Authorization failed
+        "404":
+          description: Seller not found
+        "500":
+          description: Internal server error
+servers:
+  - url: http://localhost/market-place/api/v1
+components:
+  schemas:
+    SellerListResponse:
+      type: array
+      items:
+        $ref: "#/components/schemas/Seller"
+    Seller:
+      type: object
+      required:
+        - name
+        - cnae
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        cnae:
+          type: integer
+          format: int32
