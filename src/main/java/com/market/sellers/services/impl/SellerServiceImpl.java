@@ -6,6 +6,8 @@ import com.market.sellers.exceptions.exceptionhandlers.ApiError;
 import com.market.sellers.model.Seller;
 import com.market.sellers.repositories.SellersRepository;
 import com.market.sellers.services.SellerService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,8 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 public class SellerServiceImpl implements SellerService {
     @Autowired
     private SellersRepository sellersRepository;
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
     public Seller save(Seller seller) {
@@ -37,6 +41,8 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public Seller findById(String sellerId) {
+        this.logger.info("{}", sellerId);
+
         return this.sellersRepository.findById(sellerId).map(SellerDocument::convertToSeller)
                 .orElseThrow(() -> new BaseHttpException(new ApiError(NOT_FOUND, "Seller not found")));
     }
