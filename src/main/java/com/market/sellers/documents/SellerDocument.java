@@ -1,10 +1,6 @@
 package com.market.sellers.documents;
 
 import com.market.sellers.model.Seller;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -13,10 +9,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Document(collection = "sellers")
 public class SellerDocument {
     @Id
@@ -33,11 +25,10 @@ public class SellerDocument {
     private LocalDateTime modifiedDate;
 
     public static SellerDocument build(Seller seller) {
-        return SellerDocument.builder()
-                .id(seller.getId())
-                .name(seller.getName())
-                .cnae(seller.getCnae())
-                .build();
+        return new SellerDocument()
+                .setId(seller.getId())
+                .setName(seller.getName())
+                .setCnae(seller.getCnae());
     }
 
     public Seller convertToSeller() {
@@ -45,5 +36,50 @@ public class SellerDocument {
                 .id(this.getId())
                 .name(this.getName())
                 .cnae(this.getCnae());
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public SellerDocument setId(String id) {
+        this.id = id;
+        return this;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public SellerDocument setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public int getCnae() {
+        return cnae;
+    }
+
+    public SellerDocument setCnae(int cnae) {
+        this.cnae = cnae;
+        return this;
+    }
+
+    public LocalDateTime getDateCreated() {
+        return dateCreated;
+    }
+
+    public SellerDocument setDateCreated(LocalDateTime dateCreated) {
+        this.dateCreated = dateCreated;
+        return this;
+    }
+
+    public LocalDateTime getModifiedDate() {
+        return modifiedDate;
+    }
+
+    public SellerDocument setModifiedDate(LocalDateTime modifiedDate) {
+        this.modifiedDate = modifiedDate;
+        return this;
     }
 }
