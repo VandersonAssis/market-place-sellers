@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Service
 public class ProductsServiceImpl implements ProductsService {
@@ -20,7 +21,8 @@ public class ProductsServiceImpl implements ProductsService {
         try {
             this.productsApiProxy.deleteProducts(idSeller);
         } catch(FeignException ex) {
-            throw new BaseHttpException(new ApiError(INTERNAL_SERVER_ERROR, "Error while trying to delete seller products"));
+            if(ex.status() != NOT_FOUND.value())
+                throw new BaseHttpException(new ApiError(INTERNAL_SERVER_ERROR, "Error while trying to delete seller products"));
         }
     }
 }
