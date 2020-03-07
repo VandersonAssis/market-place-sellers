@@ -30,7 +30,9 @@
 
 		<sonar.coverage.exclusions>
 			**/MarketPlaceSellersApplication.java,
-			**/documents/**/*
+			**/documents/**/*,
+			**/exceptions/**/*,
+			**/config/**/*
 		</sonar.coverage.exclusions>
 	</properties>
 
@@ -58,6 +60,16 @@
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-sleuth-zipkin</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
 		</dependency>
 
 		<dependency>

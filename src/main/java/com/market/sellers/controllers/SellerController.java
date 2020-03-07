@@ -21,7 +21,7 @@ public class SellerController extends BaseController implements SellersApi {
 
     @Override
     public ResponseEntity<Seller> saveSeller(@Valid Seller seller) {
-        seller.id(null);
+        seller.setId(null);
         return new ResponseEntity<>(this.sellerService.save(seller), OK);
     }
 
