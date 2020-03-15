@@ -1,6 +1,5 @@
 package com.market.sellers.exceptions.exceptionhandlers;
 
-import com.market.exceptions.exceptionhandlers.ApiError;
 import com.market.sellers.exceptions.custom.BaseHttpException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpHeaders;

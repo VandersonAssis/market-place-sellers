@@ -7,8 +7,8 @@ import com.market.sellers.integrations.products.services.ProductsService;
 import com.market.sellers.model.Seller;
 import com.market.sellers.repositories.SellersRepository;
 import com.market.sellers.services.SellerService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
@@ -22,6 +22,8 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Service
 public class SellerServiceImpl implements SellerService {
+    private static final Logger log = LogManager.getLogger(SellerServiceImpl.class);
+
     @Autowired
     private SellersRepository sellersRepository;
 
@@ -31,28 +33,34 @@ public class SellerServiceImpl implements SellerService {
     @Autowired
     private MessageSource messageSource;
 
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
     public Seller save(Seller seller) {
-        return this.sellersRepository.save(SellerDocument.build(seller)).convertToSeller();
+        log.info("{} begin", seller.getName());
+        Seller sellerSaved = this.sellersRepository.save(SellerDocument.build(seller)).convertToSeller();
+        log.info("{} finished", seller.getId());
+
+        return sellerSaved;
     }
 
     @Override
     public Seller edit(Seller seller) {
+        log.info("{} begin", seller.getId());
         Optional<SellerDocument> document = this.sellersRepository.findById(seller.getId());
 
-        if(document.isPresent())
+        if(document.isPresent()) {
+            log.info("Seller found, finishing editing it {}", seller.getId());
             return this.sellersRepository.save(SellerDocument.build(seller)).convertToSeller();
-        else
+        }
+        else {
             throw new BaseHttpException(new ApiError(NOT_FOUND,
                     this.messageSource.getMessage("seller.not.found", null, Locale.getDefault())));
+        }
     }
 
     @Override
     public Seller findById(String sellerId) {
-        this.logger.info("{}", sellerId);
-
+        log.info("{} begin", sellerId);
         return this.sellersRepository.findById(sellerId).map(SellerDocument::convertToSeller)
                 .orElseThrow(() -> new BaseHttpException(new ApiError(NOT_FOUND,
                         this.messageSource.getMessage("seller.not.found", null, Locale.getDefault()))));
@@ -60,18 +68,26 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public List<Seller> findAll() {
+        log.info("begin");
         List<SellerDocument> sellers = this.sellersRepository.findAll();
 
-        if(!sellers.isEmpty())
+        if(!sellers.isEmpty()) {
+            log.info("Found {} sellers", sellers.size());
             return sellers.stream().map(SellerDocument::convertToSeller).collect(Collectors.toList());
-        else
+        }
+        else {
             throw new BaseHttpException(new ApiError(NOT_FOUND,
                     this.messageSource.getMessage("seller.not.found", null, Locale.getDefault())));
+        }
     }
 
     @Override
     public void delete(String sellerId) {
+        log.info("{} sellerId begin", sellerId);
         this.productsService.deleteProducts(sellerId);
+        log.info("Deleted products belonging to {}", sellerId);
+
         this.sellersRepository.deleteById(sellerId);
+        log.info("Deleted {} seller", sellerId);
     }
 }
