@@ -8,7 +8,10 @@ import feign.FeignException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
+
+import java.util.Locale;
 
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
@@ -16,6 +19,9 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @Service
 public class ProductsServiceImpl implements ProductsService {
     private static final Logger log = LogManager.getLogger(ProductsServiceImpl.class);
+
+    @Autowired
+    private MessageSource msg;
 
     @Autowired
     private ProductsApiProxy productsApiProxy;
@@ -28,7 +34,8 @@ public class ProductsServiceImpl implements ProductsService {
             log.info("deleteProducts by idSeller {} finished", idSeller);
         } catch(FeignException ex) {
             if(ex.status() != NOT_FOUND.value()) {
-                throw new BaseHttpException(new ApiError(INTERNAL_SERVER_ERROR, "Error while trying to delete seller products"));
+                throw new BaseHttpException(new ApiError(INTERNAL_SERVER_ERROR,
+                        this.msg.getMessage("error.deleting.seller.products", null, Locale.getDefault())));
             }
         }
     }
