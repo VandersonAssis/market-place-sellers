@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -26,10 +27,14 @@ public class ProductsServiceImplTest {
     @Mock
     private FeignException.FeignServerException feignServerException;
 
+    @Mock
+    private MessageSource msg;
+
     @Before
     public void setUp() {
         this.productsService = new ProductsServiceImpl();
         ReflectionTestUtils.setField(this.productsService, "productsApiProxy", this.productsApiProxy);
+        ReflectionTestUtils.setField(this.productsService, "msg", this.msg);
     }
 
     @Test
