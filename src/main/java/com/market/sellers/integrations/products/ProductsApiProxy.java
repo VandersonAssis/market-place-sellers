@@ -6,9 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(name = "${api-gateway.application.name}")
-@RibbonClient(name = "${products.spring.application.name}")
+//TODO it seems like that this url has to be the kubernetes service's
+//TODO fix the tests
 public interface ProductsApiProxy {
-    @DeleteMapping("/${products.spring.application.name}/marketplace/api/v1/products/{idSeller}/seller")
+//    @DeleteMapping("/${products.spring.application.name}/marketplace/api/v1/products/{idSeller}/seller")
     ResponseEntity<Void> deleteProducts(@PathVariable("idSeller") String idSeller);
 }
