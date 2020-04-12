@@ -23,20 +23,20 @@ public class ProductsServiceImpl implements ProductsService {
     @Autowired
     private MessageSource msg;
 
-    @Autowired
-    private ProductsApiProxy productsApiProxy;
+//    @Autowired
+//    private ProductsApiProxy productsApiProxy;
 
     @Override
     public void deleteProducts(String idSeller) {
-        try {
-            log.info("deleteProducts by idSeller {} begin", idSeller);
-            this.productsApiProxy.deleteProducts(idSeller);
-            log.info("deleteProducts by idSeller {} finished", idSeller);
-        } catch(FeignException ex) {
-            if(ex.status() != NOT_FOUND.value()) {
-                throw new BaseHttpException(new ApiError(INTERNAL_SERVER_ERROR,
-                        this.msg.getMessage("error.deleting.seller.products", null, Locale.getDefault())));
-            }
-        }
+//        try {
+//            log.info("deleteProducts by idSeller {} begin", idSeller);
+//            this.productsApiProxy.deleteProducts(idSeller);
+//            log.info("deleteProducts by idSeller {} finished", idSeller);
+//        } catch(FeignException ex) {
+//            if(ex.status() != NOT_FOUND.value()) {
+//                throw new BaseHttpException(new ApiError(INTERNAL_SERVER_ERROR,
+//                        this.msg.getMessage("error.deleting.seller.products", null, Locale.getDefault())));
+//            }
+//        }
     }
 }

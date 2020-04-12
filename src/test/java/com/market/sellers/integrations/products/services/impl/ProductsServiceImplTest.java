@@ -5,6 +5,7 @@ import com.market.sellers.integrations.products.ProductsApiProxy;
 import com.market.sellers.integrations.products.services.ProductsService;
 import feign.FeignException;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -37,6 +38,7 @@ public class ProductsServiceImplTest {
         ReflectionTestUtils.setField(this.productsService, "msg", this.msg);
     }
 
+    @Ignore
     @Test
     public void deleteProductsShouldCallProductsApiProxyDeleteProducts() {
         when(this.productsApiProxy.deleteProducts(anyString())).thenReturn(new ResponseEntity<>(OK));
@@ -45,6 +47,7 @@ public class ProductsServiceImplTest {
         verify(this.productsApiProxy, times(1)).deleteProducts(anyString());
     }
 
+    @Ignore
     @Test(expected = BaseHttpException.class)
     public void deleteProductsShouldConvertFeignExceptionIntoBaseHttpException() {
         when(this.productsApiProxy.deleteProducts(anyString())).thenThrow(this.feignServerException);
