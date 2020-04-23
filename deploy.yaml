@@ -9,7 +9,7 @@ spec:
     - protocol: TCP
       port: 8080
       nodePort: 30085
-  type: NodePort
+  type: LoadBalancer
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -19,7 +19,7 @@ spec:
   selector:
     matchLabels:
       app: market-place-sellers
-  replicas: 1
+  replicas: 2
   template:
     metadata:
       labels:

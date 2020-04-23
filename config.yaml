@@ -4,13 +4,13 @@ metadata:
   name: market-place-sellers
 data:
   application.properties: |-
-    spring.data.mongodb.uri=mongodb://market-place-mongodb-0.market-place-mongodb,market-place-mongodb-1.market-place-mongodb,market-place-mongodb-2.market-place-mongodb:30017/products-db?serverSelectionTimeoutMS=10000&connectTimeoutMS=20000
+    spring.data.mongodb.uri=mongodb://market-place-mongodb-0.market-place-mongodb,market-place-mongodb-1.market-place-mongodb,market-place-mongodb-2.market-place-mongodb/products-db?serverSelectionTimeoutMS=10000&connectTimeoutMS=20000
     spring.zipkin.baseUrl=http://zipkin:9411/
     spring.application.name=market-place-sellers
     spring.jackson.default-property-inclusion=NON_NULL
     spring.mvc.throw-exception-if-no-handler-found=true
     api-gateway.application.name=market-place-api-gateway
-    products.spring.application.name=market-place-products
+    products-service.url=http://market-place-products
     hystrix.command.default.execution.timeout.enabled=false
     ribbon.ReadTimeout=100000
     ribbon.ConnectTimeout=100000
