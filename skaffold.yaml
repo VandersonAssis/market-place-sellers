@@ -12,3 +12,4 @@ deploy:
     manifests:
       - config.yaml
       - deploy.yaml
+      - roles.yaml
