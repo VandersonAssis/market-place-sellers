@@ -69,7 +69,7 @@ public class SellerServiceImpl implements SellerService {
     @Override
     public List<Seller> findAll() {
         log.info("begin");
-        List<SellerDocument> sellers = this.sellersRepository.findAll();
+        List<SellerDocument> sellers = this.sellersRepository.findAllByOrderByNameAsc();
 
         if(!sellers.isEmpty()) {
             log.info("Found {} sellers", sellers.size());
